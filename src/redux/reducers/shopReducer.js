@@ -31,7 +31,11 @@ const shopReducer = createSlice({
       if (itemCart) {
         itemCart.quantity += quantity;
         if (itemCart.quantity < 1) {
-          if (window.confirm("Do you want to delete ?")) {
+          if (
+            window.confirm(
+              "Are you sure you want to remove the product from your cart?"
+            )
+          ) {
             state.cart = state.cart.filter((item) => item.id !== id);
           } else {
             itemCart.quantity -= quantity;
