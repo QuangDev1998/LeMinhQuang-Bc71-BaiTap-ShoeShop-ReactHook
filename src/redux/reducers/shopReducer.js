@@ -11,41 +11,43 @@ const shopReducer = createSlice({
   initialState,
   reducers: {
     getAllProductApiAction: (state, action) => {
-    //   console.log(action);
       state.dataProduct = action.payload;
     },
     addToCartAction: (state, action) => {
-    //   console.log(action);
-    let itemCart = state.cart.find(item => item.id === action.payload.id);
-    if(itemCart){
+      let itemCart = state.cart.find((item) => item.id === action.payload.id);
+      if (itemCart) {
         itemCart.quantity += 1;
-    } else {
+      } else {
         state.cart.push(action.payload);
-    }
+      }
     },
-    delItemAction: (state,action) => {
-        const id = action.payload;
-        state.cart = state.cart.filter(item => item.id !== id);
+    delItemAction: (state, action) => {
+      const id = action.payload;
+      state.cart = state.cart.filter((item) => item.id !== id);
     },
     changeQuantityAction: (state, action) => {
-        const {id,quantity} = action.payload;
-        const itemCart = state.cart.find(item => item.id === id);
-        if(itemCart){
-            itemCart.quantity += quantity;
-            if(itemCart.quantity < 1){
-                if(window.confirm('Do you want to delete ?')){
-                    state.cart = state.cart.filter(item => item.id !== id);
-                }else {
-                    itemCart.quantity -= quantity;
-                }
-            }
+      const { id, quantity } = action.payload;
+      const itemCart = state.cart.find((item) => item.id === id);
+      if (itemCart) {
+        itemCart.quantity += quantity;
+        if (itemCart.quantity < 1) {
+          if (window.confirm("Do you want to delete ?")) {
+            state.cart = state.cart.filter((item) => item.id !== id);
+          } else {
+            itemCart.quantity -= quantity;
+          }
         }
-    }
-
+      }
+    },
   },
 });
 
-export const { getAllProductApiAction, addToCartAction, delItemAction, changeQuantityAction } = shopReducer.actions;
+export const {
+  getAllProductApiAction,
+  addToCartAction,
+  delItemAction,
+  changeQuantityAction,
+} = shopReducer.actions;
 
 export default shopReducer.reducer;
 
@@ -53,19 +55,13 @@ export default shopReducer.reducer;
 export const getAllProductApi = () => {
   return async (dispatch, getState) => {
     try {
-      let {data, status, ...res} = await axios({
+      let { data, status, ...res } = await axios({
         url: "https://shop.cyberlearn.vn/api/Product",
         method: "GET",
       });
-    //   console.log('result', result);
-      //dispatch action len reducer
-      // dispatch({
-      //     type: 'shopReducer/getAllProductApi',
-      //     data: result.data.content
-      // })
-      if(status === 200){
-            const action = getAllProductApiAction(data.content);
-            dispatch(action);
+      if (status === 200) {
+        const action = getAllProductApiAction(data.content);
+        dispatch(action);
       }
     } catch (err) {
       console.log(err);
