@@ -1,6 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { delItemAction, changeQuantityAction } from "../../redux/reducers/shopReducer";
+import {
+  delItemAction,
+  changeQuantityAction,
+} from "../../redux/reducers/shopReducer";
 export default function Carts(props) {
   let { cart } = useSelector((state) => state.shopReducer);
   const total = cart.reduce(
@@ -10,7 +13,6 @@ export default function Carts(props) {
   const dispatch = useDispatch();
   return (
     <div>
-      <h3>Carts</h3>
       <table className="table">
         <thead>
           <tr>
@@ -34,23 +36,33 @@ export default function Carts(props) {
                 </td>
                 <td>{item.price.toLocaleString()}</td>
                 <td>
-                  <button className="btn btn-outline-primary mr-2" onClick={() => {
-                    const itemQuantity = {
-                      id: item.id,
-                      quantity: 1
-                    }
-                    const action = changeQuantityAction(itemQuantity);
-                    dispatch(action);
-                  }}>+</button>
+                  <button
+                    className="btn btn-outline-primary mr-2"
+                    onClick={() => {
+                      const itemQuantity = {
+                        id: item.id,
+                        quantity: 1,
+                      };
+                      const action = changeQuantityAction(itemQuantity);
+                      dispatch(action);
+                    }}
+                  >
+                    +
+                  </button>
                   {item.quantity}
-                  <button className="btn btn-outline-primary ml-2" onClick={() => {
-                    const itemQuantity = {
-                      id: item.id,
-                      quantity: -1
-                    }
-                    const action = changeQuantityAction(itemQuantity);
-                    dispatch(action);
-                  }}>-</button>
+                  <button
+                    className="btn btn-outline-primary ml-2"
+                    onClick={() => {
+                      const itemQuantity = {
+                        id: item.id,
+                        quantity: -1,
+                      };
+                      const action = changeQuantityAction(itemQuantity);
+                      dispatch(action);
+                    }}
+                  >
+                    -
+                  </button>
                 </td>
                 <td>{(item.price * item.quantity).toLocaleString()}</td>
                 <td>
